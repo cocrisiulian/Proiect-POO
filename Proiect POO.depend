@@ -1,0 +1,74 @@
+# depslib dependency file v1.0
+1686581967 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\client.cpp
+	"Client.h"
+	<iostream>
+	<cstring>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<vector>
+	<fstream>
+	<algorithm>
+
+1686580767 d:\facultate an_ii\semestrul_ii\poo\proiect poo\include\client.h
+	<iostream>
+	<vector>
+	<string>
+	<algorithm>
+
+1684073960 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\programare.cpp
+	"Programare.h"
+	<iostream>
+	<cstring>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+
+1684073960 d:\facultate an_ii\semestrul_ii\poo\proiect poo\include\programare.h
+
+1686580612 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\serviciu.cpp
+	"Serviciu.h"
+	<iostream>
+	<cstring>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+
+1684604021 d:\facultate an_ii\semestrul_ii\poo\proiect poo\include\serviciu.h
+
+1686577258 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\main.cpp
+	<iostream>
+	<cstring>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<vector>
+	"Serviciu.h"
+	"GestiuneClienti.h"
+	"Client.h"
+	<windows.h>
+	<algorithm>
+
+1684162644 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\salonfrumusete.cpp
+	"SalonFrumusete.h"
+
+1684161444 d:\facultate an_ii\semestrul_ii\poo\proiect poo\include\salonfrumusete.h
+
+1684604252 d:\facultate an_ii\semestrul_ii\poo\proiect poo\include\gestiuneclienti.h
+	<iostream>
+	<vector>
+	"Client.h"
+
+1684604153 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\gestiuneclienti.cpp
+	"GestiuneClienti.h"
+	<iostream>
+	<vector>
+
+1684742349 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\src\administrator.cpp
+
+1684706597 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\input.c
+
