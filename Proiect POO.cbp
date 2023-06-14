@@ -37,13 +37,12 @@
 		<Unit filename="Clienti">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="Programari" />
 		<Unit filename="include/Client.h" />
 		<Unit filename="include/Programare.h" />
-		<Unit filename="include/Serviciu.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Client.cpp" />
 		<Unit filename="src/Programare.cpp" />
-		<Unit filename="src/Serviciu.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

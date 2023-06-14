@@ -72,3 +72,55 @@
 
 1684706597 source:d:\facultate an_ii\semestrul_ii\poo\proiect poo\input.c
 
+1686681431 source:c:\users\admin\documents\proiect poo\src\client.cpp
+	"Client.h"
+	<iostream>
+	<ostream>
+	<cstring>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<vector>
+	<fstream>
+	<algorithm>
+
+1686672493 c:\users\admin\documents\proiect poo\include\client.h
+	<iostream>
+	<ostream>
+	<vector>
+	<string>
+	<algorithm>
+
+1686724970 source:c:\users\admin\documents\proiect poo\src\programare.cpp
+	"Programare.h"
+	<iostream>
+	<fstream>
+
+1686725090 c:\users\admin\documents\proiect poo\include\programare.h
+	"Client.h"
+	<string>
+	<vector>
+	<iostream>
+
+1686728272 source:c:\users\admin\documents\proiect poo\src\serviciu.cpp
+	"Serviciu.h"
+	"serviciu.h"
+
+1686728254 c:\users\admin\documents\proiect poo\include\serviciu.h
+	<string>
+
+1686730814 source:c:\users\admin\documents\proiect poo\main.cpp
+	<iostream>
+	<vector>
+	<conio.h>
+	"Serviciu.h"
+	"Client.h"
+	"Programare.h"
+	<windows.h>
+
+1684604252 c:\users\admin\documents\proiect poo\include\gestiuneclienti.h
+	<iostream>
+	<vector>
+	"Client.h"
+

@@ -1,6 +1,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 #include <iostream>
+#include <ostream>
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -24,15 +25,15 @@ public:
     void CitesteClient(Client* client);
     void AfiseazaClient( Client* client);
     void AfiseazaClient();
-    void SalveazaClienti( string& numeFisier,  vector<Client>& clienti);
+    friend std::istream& operator>>(std::istream& in, Client& client);
+    friend std::ostream& operator<<(std::ostream& out,  Client& client);
+    static void SalveazaClienti(const std::string& numeFisier, Client* client);
     void IncarcaClientiDinFisier(const string& numeFisier, vector<Client>& clienti);
     void AfiseazaClienti(const string& numeFisier);
-    void StergeClient( string& numeClient, vector<Client>& clienti);
-    static bool ComparareNume(Client& client1, Client& client2);
-    void SorteazaClientiDupaNume(vector<Client>& clienti);
+    void StergeClient( const string& numeClient, const string& numeFisier);
+    void SorteazaClientiDupaNume(std::vector<Client>& clienti);
     void AfiseazaClientiCuAbonament( vector<Client>& clienti);
-    vector<Client> CautaClientiDupaPrenume(string prenumeCautat, string numeFisier);
-
+    Client* CautaClientDupaNume(const std::string& numeCautat, std::vector<Client>& clienti);
 
 private:
     char* nume;

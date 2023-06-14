@@ -1,5 +1,6 @@
 #include "Client.h"
 #include <iostream>
+#include <ostream>
 #include <cstring>
 #include <string.h>
 #include <stdio.h>
@@ -65,6 +66,41 @@ Client::Client(char* nume, char* prenume, char* adresa, bool abonament)
     this->abonament = abonament;
 }
 
+istream& operator>>(istream& is, Client& client)
+{
+    char buffer[100]; // Ajustează dimensiunea buffer-ului după nevoile tale
+
+    cout << "Nume: ";
+    is >> buffer;
+    client.SetNume(buffer);
+
+    cout << "Prenume: ";
+    is >> buffer;
+    client.SetPrenume(buffer);
+
+    cout << "Adresa: ";
+    is >> buffer;
+    client.SetAdresa(buffer);
+
+    cout << "Abonament (Da/Nu): ";
+    is >> buffer;
+    client.SetAbonament(strcmp(buffer, "Da") == 0);
+
+    return is;
+}
+
+
+std::ostream& operator<<(std::ostream& out,  Client& client)
+{
+    out << "Nume: " << client.GetNume() << std::endl;
+    out << "Prenume: " << client.GetPrenume() << std::endl;
+    out << "Adresa: " << client.GetAdresa() << std::endl;
+    out << "Abonament: " << (client.GetAbonament() ? "Da" : "Nu") << std::endl;
+    out << "-----------------------------" << std::endl;
+    return out;
+}
+
+
 void Client::CitesteClient(Client* client)
 {
     cin.ignore();
@@ -124,21 +160,19 @@ void Client::AfiseazaClient(Client* client)
     cout << "Abonament: " << (client->GetAbonament() ? "Da" : "Nu") << endl;
 }
 
-void Client::SalveazaClienti(std::string& numeFisier, std::vector<Client>& clienti)
+void Client::SalveazaClienti(const std::string& numeFisier, Client* client)
 {
-    std::ofstream fout(numeFisier, std::ios::app); // Modificare aici, folosind std::ios::app
+    std::ofstream fout(numeFisier, std::ios::app);
     if (fout.is_open())
     {
-        for (auto& client : clienti)
-        {
-            fout << "Nume: " << client.GetNume() << std::endl;
-            fout << "Prenume: " << client.GetPrenume() << std::endl;
-            fout << "Adresa: " << client.GetAdresa() << std::endl;
-            fout << "Abonament: " << (client.GetAbonament() ? "Da" : "Nu") << std::endl;
-            fout << "-----------------------------" << std::endl;
-        }
+        fout << "Nume: " << client->GetNume() << std::endl;
+        fout << "Prenume: " << client->GetPrenume() << std::endl;
+        fout << "Adresa: " << client->GetAdresa() << std::endl;
+        fout << "Abonament: " << (client->GetAbonament() ? "Da" : "Nu") << std::endl;
+        fout << "-----------------------------" << std::endl;
+
         fout.close();
-        std::cout << "Clientii au fost salvati cu succes in fisier." << std::endl;
+        std::cout << "Clientul a fost salvat cu succes in fisier." << std::endl;
     }
     else
     {
@@ -149,52 +183,46 @@ void Client::SalveazaClienti(std::string& numeFisier, std::vector<Client>& clien
 
 void Client::IncarcaClientiDinFisier(const std::string& numeFisier, std::vector<Client>& clienti)
 {
-    ifstream fisier(numeFisier);
-    if (fisier)
+    std::ifstream fisier(numeFisier);
+    if (fisier.is_open())
     {
-       // clienti.clear(); // Golește vectorul de clienți existent
-        string nume, prenume, adresa, abonamentStr;
-        bool abonament;
-
-        while (std::getline(fisier, nume))
+        std::string linie;
+        while (std::getline(fisier, linie))
         {
-            getline(fisier, prenume);
-            getline(fisier, adresa);
-            getline(fisier, abonamentStr);
+            if (linie.find("Nume: ") != std::string::npos)
+            {
+                std::string nume = linie.substr(6);
+                std::string prenume, adresa, abonamentStr;
 
+                std::getline(fisier, prenume);
+                std::getline(fisier, adresa);
+                std::getline(fisier, abonamentStr);
 
-            // Verifică dacă abonamentul este "Da" sau "Nu" și setează corespunzător
-            if (abonamentStr == "Da")
-                abonament = true;
-            else
-                abonament = false;
+                bool abonament = (abonamentStr == "Da");
 
-            std::string numeClient = nume.substr(5);
-            char* numePtr = new char[numeClient.length() + 1];
-            strcpy(numePtr, numeClient.c_str());
+                char* numePtr = new char[nume.length() + 1];
+                std::strcpy(numePtr, nume.c_str());
 
-            std::string prenumeClient = prenume.substr(8);
-            char* prenumePtr = new char[prenumeClient.length() + 1];
-            strcpy(prenumePtr, prenumeClient.c_str());
+                char* prenumePtr = new char[prenume.length() + 1];
+                std::strcpy(prenumePtr, prenume.c_str());
 
-            std::string adresaClient = adresa.substr(7);
-            char* adresaPtr = new char[adresaClient.length() + 1];
-            strcpy(adresaPtr, adresaClient.c_str());
+                char* adresaPtr = new char[adresa.length() + 1];
+                std::strcpy(adresaPtr, adresa.c_str());
 
-            clienti.push_back(Client(numePtr, prenumePtr, adresaPtr, abonament));
+                clienti.emplace_back(numePtr, prenumePtr, adresaPtr, abonament);
 
-            delete[] numePtr;
-            delete[] prenumePtr;
-            delete[] adresaPtr;
-
+                delete[] numePtr;
+                delete[] prenumePtr;
+                delete[] adresaPtr;
+            }
         }
 
         fisier.close();
-        cout << "Clientii au fost incarcati din fisier " << numeFisier << endl;
+        std::cout << "Clientii au fost incarcati din fisier " << numeFisier << std::endl;
     }
     else
     {
-        cout << "Eroare la deschiderea fisierului " << numeFisier << endl;
+        std::cout << "Eroare la deschiderea fisierului " << numeFisier << std::endl;
     }
 }
 
@@ -218,50 +246,88 @@ void Client::AfiseazaClienti(const ::string& numeFisier)
     }
 }
 
-
-
-void Client::StergeClient(string& numeClient, vector<Client>& clienti)
+void Client::StergeClient(const string& numeClient, const string& numeFisier)
 {
+    // Deschide fisierul pentru citire
+    ifstream fin(numeFisier);
+    if (!fin.is_open()) {
+        cout << "Eroare la deschiderea fisierului." << endl;
+        return;
+    }
+
+    // Creeaza un fisier temporar pentru a stoca datele fara clientul sters
+    string numeTempFisier = "temp.txt";
+    ofstream fout(numeTempFisier);
+    if (!fout.is_open()) {
+        cout << "Eroare la deschiderea fisierului temporar." << endl;
+        fin.close();
+        return;
+    }
+
+    string line;
     bool gasit = false;
+    bool stergeLinie = false;
 
-    for (size_t i = 0; i < clienti.size(); ++i)
-    {
-        if (strcmp(clienti[i].GetNume(), numeClient.c_str()) == 0)
-        {
-            /// Stergem clientul din vector prin functia erase
-            ///Funcția erase este o funcție membru a clasei std::vector și este utilizată pentru a șterge un element din vector
-            clienti.erase(clienti.begin() + i);
-            gasit = true;
-            break;
+    // Parcurge fiecare linie din fisier
+    while (getline(fin, line)) {
+        // Verifica daca linia incepe cu "Nume: "
+        if (line.substr(0, 6) == "Nume: ") {
+            // Extrage numele clientului din restul liniei
+            string numeLinie = line.substr(6);
+
+            // Verifica daca numele clientului corespunde cu cel cautat
+            if (numeLinie == numeClient) {
+                gasit = true;
+                stergeLinie = true; // Marcheaza ca trebuie stearsa linia care contine numele clientului
+            }
         }
+
+        // Verifica daca trebuie sa stearga linia curenta
+        if (stergeLinie) {
+            // Verifica daca linia contine separatorul "-------------"
+            if (line == "-----------------------------") {
+                stergeLinie = false; // Opreste stergerea, deoarece a ajuns la sfarsitul informatiilor despre client
+                continue; // Ignora linia care contine separatorul
+            }
+            continue; // Ignora linia curenta, deoarece trebuie sa o stearga
+        }
+
+        // Adauga linia in fisierul temporar
+        fout << line << endl;
     }
 
-    if (gasit)
-    {
+    // Inchide fisierele
+    fin.close();
+    fout.close();
+
+    // Sterge fisierul original
+    remove(numeFisier.c_str());
+
+    // Redenumește fisierul temporar
+    rename(numeTempFisier.c_str(), numeFisier.c_str());
+
+    if (gasit) {
         cout << "Clientul " << numeClient << " a fost sters." << endl;
-    }
-    else
-    {
+    } else {
         cout << "Clientul " << numeClient << " nu a fost gasit." << endl;
     }
 }
 
 
 
-
-bool Client::ComparareNume(Client& client1, Client& client2)
+bool ComparareNume( Client& client1,  Client& client2)
 {
-    std::string nume1 = client1.GetNume();
-    std::string nume2 = client2.GetNume();
-
-    // Utilizăm operatorul de comparare pentru a verifica ordinea lexicografică a numelor
-    return nume1 < nume2;
+    return strcmp(client1.GetNume(), client2.GetNume()) < 0;
 }
 
-
-void Client::SorteazaClientiDupaNume(vector<Client>& clienti)
+void Client::SorteazaClientiDupaNume(std::vector<Client>& clienti)
 {
     std::sort(clienti.begin(), clienti.end(), ComparareNume);
+
+    for ( auto& client : clienti)
+    {
+        client.AfiseazaClient();
+    }
 }
 
 
@@ -276,53 +342,15 @@ void Client::AfiseazaClientiCuAbonament(vector<Client>& clienti)
     }
 }
 
-
-
-
-
-vector<Client> Client::CautaClientiDupaPrenume(string prenumeCautat, string numeFisier)
+Client* Client::CautaClientDupaNume(const std::string& numeCautat, std::vector<Client>& clienti)
 {
-    vector<Client> rezultat;
-
-    ifstream fin(numeFisier);
-    if (fin.is_open())
+    for (auto& client : clienti)
     {
-        string line;
-        while (getline(fin, line))
+        if (client.GetNume() == numeCautat)
         {
-            // Cauta linia care contine prenumele cautat
-            if (line.find("Prenume: " + prenumeCautat) != string::npos)
-            {
-                char* nume;
-                char* prenume;
-                char* adresa;
-                bool abonament;
-
-                // Citeste numele, prenumele, adresa si abonamentul
-                getline(fin, line); // Nume: ...
-                nume = const_cast<char*>(line.substr(6).c_str());
-                getline(fin, line); // Prenume: ...
-                prenume = const_cast<char*>(line.substr(9).c_str());
-                getline(fin, line); // Adresa: ...
-                adresa = const_cast<char*>(line.substr(7).c_str());
-                getline(fin, line); // Abonament: ...
-                abonament = (line.substr(12) == "Da");
-
-                // Creeaza un obiect de tip Client si adauga-l in vectorul rezultat
-                Client client(nume, prenume, adresa, abonament);
-                rezultat.push_back(client);
-            }
+            return &client;
         }
-
-        fin.close();
-    }
-    else
-    {
-        cout << "Eroare la deschiderea fisierului." << endl;
     }
 
-    return rezultat;
+    return nullptr; // Returneaza nullptr daca nu s-a gasit un client cu numele specificat
 }
-
-
-
