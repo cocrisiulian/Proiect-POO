@@ -35,8 +35,7 @@ char afisare_meniu_programari()
     printf("\n%c F- Afisare Programari",204);
     printf("\n%c G- Afisare Programare din fisier",204);
     printf("\n%c E- Sterge ultima Programare inregistrata",204);
-    printf("\n%c R- Sterge ultima Programare inregistrata in fisier",204);
-    printf("\n%c Q- Cautare Programare dupa nume complet",204);
+    printf("\n%c Q- Sterge ultima Programare inregistrata in fisier",204);
     printf("\n%c X- Exit", 200);
     printf("\nIntroduceti optiunea dorita:\t");
     return toupper(getchar());
