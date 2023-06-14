@@ -110,14 +110,12 @@
 1686728254 c:\users\admin\documents\proiect poo\include\serviciu.h
 	<string>
 
-1686730814 source:c:\users\admin\documents\proiect poo\main.cpp
+1686741032 source:c:\users\admin\documents\proiect poo\main.cpp
 	<iostream>
 	<vector>
 	<conio.h>
-	"Serviciu.h"
 	"Client.h"
 	"Programare.h"
-	<windows.h>
 
 1684604252 c:\users\admin\documents\proiect poo\include\gestiuneclienti.h
 	<iostream>
